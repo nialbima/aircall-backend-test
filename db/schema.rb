@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20180102194839) do
 
   create_table "calls", force: :cascade do |t|
     t.string "twilio_sid"
-    t.string "audio_url"
     t.string "status"
+    t.text "audio_url"
     t.string "called_number"
     t.string "called_country"
     t.string "called_zip"
