@@ -10,30 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180102173225) do
+ActiveRecord::Schema.define(version: 20180102194839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "calls", force: :cascade do |t|
-    t.string "from"
     t.string "twilio_sid"
     t.string "audio_url"
-    t.integer "transfer_count"
+    t.string "status"
+    t.string "called_number"
+    t.string "called_country"
+    t.string "called_zip"
+    t.string "called_city"
+    t.string "caller_number"
+    t.string "caller_country"
+    t.string "caller_zip"
+    t.string "caller_city"
     t.integer "duration"
     t.datetime "opened_at"
     t.datetime "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "transfers", force: :cascade do |t|
-    t.bigint "calls_id"
-    t.string "transferred_from"
-    t.string "tranferred_to"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["calls_id"], name: "index_transfers_on_calls_id"
+    t.index ["twilio_sid"], name: "index_calls_on_twilio_sid"
   end
 
 end

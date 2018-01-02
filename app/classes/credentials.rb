@@ -9,4 +9,8 @@ class Credentials
     Rails.application.secrets.twilio_api_key
   end
 
+  def self.phone_number
+    Rails.application.secrets.phone_number
+  end
+
 end
