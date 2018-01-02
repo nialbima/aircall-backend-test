@@ -50,8 +50,7 @@ class Webhooks::TwilioController < ApplicationController
     case user_input
     when '1'
       response = Twilio::TwiML::VoiceResponse.new do |r|
-        number = Credentials.phone_number
-        r.dial(number)
+        r.dial(number: Credentials.phone_number)
         # if it fails deeper in the stack, it'll come back here
         r.say('The call failed or Nick hung up. Laaaaateeeer.')
       end
@@ -75,9 +74,6 @@ class Webhooks::TwilioController < ApplicationController
   def handle_record
     @call.audio_url = params['RecordingUrl']
     if @call.save
-      Rails.logger.debug("CALL: #{@call.inspect}")
-      binding.pry
-
       response = Twilio::TwiML::VoiceResponse.new do |r|
         r.say('You left him this message!')
         r.play(url: @call.audio_url)
@@ -85,7 +81,6 @@ class Webhooks::TwilioController < ApplicationController
         r.say('Goodbye')
       end
 
-      Rails.logger.debug("AFTER RECORD: #{response.to_s.inspect}")
       render xml: response.to_xml
     else
       # error handling.
