@@ -2,8 +2,6 @@ require_relative 'boot'
 
 require 'rails/all'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module BackendTest4
@@ -11,8 +9,10 @@ module BackendTest4
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # This line makes sure that our API classes are always available in Rails.
+    # It's also useful for organizing code that doesn't neatly map onto the MVC
+    # framework. Sometimes you need to do the weird stuff, and this keeps it
+    # clean.
+    config.autoload_paths << "#{Rails.root}/classes"
   end
 end

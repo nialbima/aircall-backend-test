@@ -21,3 +21,7 @@
 /yarn-error.log
 
 .byebug_history
+
+# This makes getting somebody else's environment online as easy as Slacking them
+# a copy of a .env file.
+.env
