@@ -1,0 +1,57 @@
+.call-log {
+  color: $primary-text;
+  width: 100%;
+}
+
+.call-log-title {
+  text-align: center;
+}
+
+.call-log-break-row {
+  @extend .break-row;
+}
+//
+.call-log-container {
+  width: 100%;
+  padding-left: 3%;
+  padding-right: 5%;
+}
+//
+.call-log-row {
+  @extend .table-row;
+}
+
+.call-log-headers-row {
+  @extend .table-row;
+}
+
+.call-log-row-container {
+  @extend .table-row-container;
+}
+
+.call-log-cell {
+  @extend .table-cell;
+  flex-basis: 12%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.call-log-header-cell {
+  @extend .call-log-cell;
+}
+
+.call-log-data-cell {
+  @extend .call-log-cell;
+}
+//
+// .conversation-row-link {
+//   @extend .table-cell;
+//   @extend .flex-container;
+//   @extend .table-link;
+//
+//   border-bottom: 1px solid gray;
+//   padding-top: 10px;
+//   padding-bottom: 10px;
+//   flex-basis: 85%;
+// }
+//

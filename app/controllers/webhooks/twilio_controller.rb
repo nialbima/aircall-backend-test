@@ -1,7 +1,6 @@
 class Webhooks::TwilioController < ApplicationController
 
   before_action :get_call, only: [ :handle_gather, :handle_record ]
-
   protect_from_forgery except: [
     :incoming_call, :handle_gather, :handle_record
   ]
@@ -29,45 +28,41 @@ class Webhooks::TwilioController < ApplicationController
           :action => '/webhooks/twilio/handle_gather',
           :method => :get
         }
-        r.gather(params) do |g|
-          g.say('Press 1 to connect.')
-          g.say('Press 2 to record him a message.')
-          g.say('Press any other key to start over.')
-        end
+        r.gather(params) { |g| read_main_menu_options(g) }
       end
-      Rails.logger.debug("RES (BEFORE GATHER): #{response.to_s.inspect}")
       render xml: response.to_xml
     end
   end
 
-  # gathers user input
+  def read_main_menu_options(gather_object)
+    gather_object.say('Press 1 to connect.')
+    gather_object.say('Press 2 to record him a message.')
+    gather_object.say('Press any other key to start over.')
+  end
+
   def handle_gather
     user_input = params['Digits']
-    unless ['1', '2'].include?(user_input)
-      redirect_to action: 'incoming_call'
-    end
+    redirect_to action: 'incoming_call' unless ['1', '2'].include?(user_input)
 
     case user_input
     when '1'
       response = Twilio::TwiML::VoiceResponse.new do |r|
         r.dial(number: Credentials.phone_number)
-        # if it fails deeper in the stack, it'll come back here
-        r.say('The call failed or Nick hung up. Laaaaateeeer.')
+        r.say('HAVE A GOOD DAY!')
       end
+      @call.update(status: 'completed')
     when '2'
-      # 30 is too long.
-      # how do we say 'when done hit #'
       recording_params = {
-        :max_length => '1',
+        :max_length => '60',
         :action => '/webhooks/twilio/handle_record',
+        :finish_on_key => '#',
         :method => :get
       }
       response = Twilio::TwiML::VoiceResponse.new do |r|
-        r.say('Record your message after the tone.')
+        r.say('Record your message after the tone. Press the pound key to exit.')
         r.record(recording_params)
       end
     end
-    Rails.logger.debug("AFTER GATHER: #{response.to_s.inspect}")
     render xml: response.to_xml
   end
 
@@ -77,14 +72,11 @@ class Webhooks::TwilioController < ApplicationController
       response = Twilio::TwiML::VoiceResponse.new do |r|
         r.say('You left him this message!')
         r.play(url: @call.audio_url)
-        # redirect to re-record here?
-        r.say('Goodbye')
+        r.say('LATER!')
       end
 
+      @call.update(status: 'completed')
       render xml: response.to_xml
-    else
-      # error handling.
-      # 'we're sorry, the message failed to save. please try again.'
     end
   end
 

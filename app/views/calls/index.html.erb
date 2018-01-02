@@ -1,0 +1,37 @@
+<div class="call-log">
+  <h1 class='call-log-title'>Call Log</h1>
+
+  <div class="call-log-container">
+    <div class="call-log-headers-container">
+      <div class='call-log-headers-row'>
+        <div class='call-log-header-cell'>Status</div>
+        <div class='call-log-header-cell'>Number Called</div>
+        <div class='call-log-header-cell'>Called Country</div>
+        <div class='call-log-header-cell'>Caller's Number</div>
+        <div class='call-log-header-cell'>Caller Country</div>
+        <div class='call-log-header-cell'>Date</div>
+        <div class='call-log-header-cell'>Duration</div>
+      </div>
+    </div>
+    <div class='call-log-break-row'/>
+    <div class='call-log-row-container'>
+      <% @calls.each do |call| %>
+        <div class='call-log-row'>
+          <% [
+              call.status,
+              call.called_number,
+              call.called_country,
+              call.caller_number,
+              call.caller_country,
+              call.created_at,
+              "#{call.duration}s"
+            ].each do |cell_field| %>
+              <div class='call-log-data-cell'>
+                <%= cell_field %>
+              </div>
+            <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

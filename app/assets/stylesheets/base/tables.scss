@@ -1,0 +1,85 @@
+// This file has everything you need to build out a flexible table with headers.
+// I've used it in other projects because dealing w/ flexbox is ANNOYING sometimes.
+
+// Definitions:
+// - Table rows contain table cells. Everything in a table lives in some kind of
+//   cell, and is groupd in some kind of row.
+// - Table links are a set of table cells in a row (typically occupying >50%),
+//   where the whole div should be a clickable link. They are both flexbox parents
+//   and children, and have a hover effect.
+// - Table containers are used to prevent flexbox from overflowing. They use percentile
+//   padding to stay consistent and keep it under control.
+// - A break is a line in a table, which is sometimes necessary for styling
+//   when a simple border won't cut it.
+
+// If you want to use these classes to build a clean, aligned table, make sure:
+//  A) you have a parent for every child.
+//  B) flexbox doesn't overflow the screen (it'll try!)
+//  C) the flex-basis properties on both the headers and the divs have to align.
+//    - if they don't add up to the same number, things'll get misaligned.
+//    - example (StoresShow, as a retailer):
+//      - we need a table that allows order selection.
+//      - The row has 6 columns, one of which needs to be a select toggle.
+//      - that shouldn't highlight, because it's confusing.
+//      - so we need to wrap our data cells in a table-link div.
+//      - 100 / 6 ~= .15, so a flex-basis of 15% on every cell should be nice.
+//      - therefore, we need to set our select-cell flex-basis to 15%, and our
+//        row-link flex-basis to 85%. each cell inside of it (5 left) should
+//        have a flex-basis of 20% to allow for even distribution.
+//      - to make the headers line up, we need to wrap the data column headers
+//        in a div with a flex-basis that matches the one we added on our row link,
+//        and set our "Select" header to the same value we gave the select toggle.
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.table-row {
+  @extend .flex-container;
+}
+
+.table-row-container {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.table-cell {
+  text-align: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 15%;
+}
+
+.full-width-text-row {
+  padding-top: 2%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 100%;
+  text-align: center;
+  font-family: $serif;
+}
+
+.table-headers-container {
+  @extend .table-row-container;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.table-header-cell {
+  @extend .table-cell;
+  text-transform: uppercase;
+}
+
+.row-border-bottom {
+  border-bottom: 1px solid $border;
+}
+
+.row-border-top {
+  border-top: 1px solid $border;
+}
+
+.break-row {
+  @extend .row-border-top;
+  flex-basis: 1 1 100%;
+}
