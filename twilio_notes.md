@@ -96,3 +96,12 @@ this is the call resource:
 }
 ```
 ForwardedFrom	is probably useful.
+
+# Statuses:
+queued -	The call is ready and waiting in line before going out.
+ringing	 - The call is currently ringing.
+in-progress	- The call was answered and is currently in progress.
+canceled	- The call was hung up while it was queued or ringing.
+completed	- The call was answered and has ended normally.
+busy	- The caller received a busy signal.
+failed - The call could not be completed as dialed, most likely because the phone number was non-existent.
