@@ -3,7 +3,7 @@ class  CallsController < ApplicationController
   # front end.
 
   def index
-    @calls = Call.limit(30).order(created_at: :desc)
+    @calls = Call.batched_response(30)
     render :index
   end
 end

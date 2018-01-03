@@ -3,30 +3,18 @@ class Webhooks::TwilioController < ApplicationController
   before_action :get_call, only: [
     :handle_gather,
     :handle_record,
-    :handle_call_cleanup
+    :handle_call_status
   ]
 
   protect_from_forgery except: [
     :incoming_call,
     :handle_gather,
     :handle_record,
-    :handle_call_cleanup
+    :handle_call_status
   ]
 
   def incoming_call
-    @call = Call.new({
-      twilio_sid: params['CallSid'],
-      status: params['CallStatus'],
-      called_number: params['Called'],
-      called_country: params['CalledCountry'],
-      called_zip: params['CalledZip'],
-      called_city: params['CalledCity'],
-      caller_number: params['Caller'],
-      caller_country: params['CallerCountry'],
-      caller_zip: params['CallerZip'],
-      caller_city: params['CallerCity']
-    })
-
+    @call = Call.new(call_params)
     if @call.save
       render xml: Api::Twilio.handle_incoming_call.to_xml
     end
@@ -43,9 +31,17 @@ class Webhooks::TwilioController < ApplicationController
     end
   end
 
-  def handle_call_cleanup
+  def handle_call_status
+    @call.assign_attributes(call_params)
+
+    # This is slightly inefficient! We get most, but not all, of the necessary
+    # data fields from the status callback API. Twilio's giving us some data here,
+    # so we wind up overwriting status and duration.
+    # There's a 1.5s discrepancy between the created_at timestamp here and
+    # the start_time saved by Twilio, so I thought it'd be okay to go get the
+    # absolutely-most-correct value after the fact.
     if @call.update_twilio_status
-      head 200
+      return head 200
     end
   end
 
@@ -53,6 +49,22 @@ class Webhooks::TwilioController < ApplicationController
 
   def get_call
     @call = Call.where(twilio_sid: params['CallSid']).first
+  end
+
+  def call_params
+    return {
+      twilio_sid: params['CallSid'],
+      status: params['CallStatus'],
+      duration: params['Duration'],
+      called_number: params['Called'],
+      called_country: params['CalledCountry'],
+      called_zip: params['CalledZip'],
+      called_city: params['CalledCity'],
+      caller_number: params['Caller'],
+      caller_country: params['CallerCountry'],
+      caller_zip: params['CallerZip'],
+      caller_city: params['CallerCity']
+    }.compact
   end
 
 end
