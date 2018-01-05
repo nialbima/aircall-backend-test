@@ -1,5 +1,7 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+  # # This line lets us disable protection for Twilio's requests without exposing
+  # # the app to CSRF attacks.
+  # config.middleware.use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/webhooks/twilio'
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -88,4 +90,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # We shouldn't use the credentials API I use in application code here.
+  # It's better to rely on Rails application secrets in config so we don't break
+  # conventions.
+  twilio_auth_token = Rails.application.secrets.twilio_auth_token
+  # This line lets us disable protection for Twilio's requests without exposing
+  # the app to CSRF attacks.
+  config.middleware.use Rack::TwilioWebhookAuthentication, twilio_auth_token, '/webhooks/twilio'
 end

@@ -1,13 +1,7 @@
 class Webhooks::TwilioController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   before_action :get_call, only: [
-    :handle_gather,
-    :handle_record,
-    :handle_call_status
-  ]
-
-  protect_from_forgery except: [
-    :incoming_call,
     :handle_gather,
     :handle_record,
     :handle_call_status
