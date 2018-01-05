@@ -9,8 +9,8 @@
         <div class='call-log-header-cell'>Called Country</div>
         <div class='call-log-header-cell'>Caller's Number</div>
         <div class='call-log-header-cell'>Caller Country</div>
-        <div class='call-log-header-cell'>Started</div>
-        <div class='call-log-header-cell'>Ended</div>
+        <div class='call-log-header-cell'>Started (GMT)</div>
+        <div class='call-log-header-cell'>Ended (GMT)</div>
         <div class='call-log-header-cell'>Duration</div>
       </div>
     </div>
@@ -24,9 +24,9 @@
               call.called_country,
               call.caller_number,
               call.caller_country,
-              # This is really ugly, but I can't use a test API key 
-              call.try(:opened_at).try(:strftime, "%H:%m:%S %D") || 'N/A',
-              call.try(:closed_at).try(:strftime, "%H:%m:%S %D") || 'N/A',
+              # This is really ugly, but I can't use a test API key
+              call.try(:opened_at).try(:strftime, "%H:%M:%S %D") || 'N/A',
+              call.try(:closed_at).try(:strftime, "%H:%M:%S %D") || 'N/A',
               "#{call.duration || 0}s"
             ].each do |cell_field| %>
               <div class='call-log-data-cell'>
