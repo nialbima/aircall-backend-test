@@ -1,11 +1,6 @@
 # [Aircall.io](https://aircall.io) - Backend technical test
 
-This test is a part of our hiring process at Aircall for [backend positions](https://jobs.aircall.io). It should take you between 2 and 4 hours depending on your experience.
-Hope you will have as much fun as we did coding this test!
-
-__Feel free to apply! Drop us a line with your Linkedin/Github/Twitter/AnySocialProfileWhereYouAreActive at jobs@aircall.io__
-
-## Summary
+## Summary (from main repo)
 
 The purpose of the test is to reproduce one Aircall feature: __call forwarding__.
 

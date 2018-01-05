@@ -3,7 +3,7 @@ class Webhooks::TwilioController < ApplicationController
 
   before_action :get_call, only: [
     :handle_gather,
-    :handle_record,
+    :handle_play_record,
     :handle_call_status
   ]
 
@@ -20,8 +20,8 @@ class Webhooks::TwilioController < ApplicationController
   end
 
   def handle_play_record
-    if @call.set_audio_url(params['RecordingUrl'])
-      render xml: Api::Twilio.play_recorded_message.to_xml
+    if @call.update(audio_url: params['RecordingUrl'])
+      render xml: Api::Twilio.play_recorded_message(@call.audio_url).to_xml
     end
   end
 

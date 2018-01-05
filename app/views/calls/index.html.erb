@@ -24,15 +24,21 @@
               call.called_country,
               call.caller_number,
               call.caller_country,
-              call.opened_at.strftime("%H:%m:%S %D"),
-              call.closed_at.strftime("%H:%m:%S %D"),
-              "#{call.duration}s"
+              # This is really ugly, but I can't use a test API key 
+              call.try(:opened_at).try(:strftime, "%H:%m:%S %D") || 'N/A',
+              call.try(:closed_at).try(:strftime, "%H:%m:%S %D") || 'N/A',
+              "#{call.duration || 0}s"
             ].each do |cell_field| %>
               <div class='call-log-data-cell'>
                 <%= cell_field %>
               </div>
             <% end %>
         </div>
+        <% if call.audio_url %>
+          <div class='call-log-audio-row'>
+            <%= audio_tag(call.audio_url, controls: true) %>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>
