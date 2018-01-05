@@ -9,7 +9,8 @@
         <div class='call-log-header-cell'>Called Country</div>
         <div class='call-log-header-cell'>Caller's Number</div>
         <div class='call-log-header-cell'>Caller Country</div>
-        <div class='call-log-header-cell'>Date</div>
+        <div class='call-log-header-cell'>Started</div>
+        <div class='call-log-header-cell'>Ended</div>
         <div class='call-log-header-cell'>Duration</div>
       </div>
     </div>
@@ -23,7 +24,8 @@
               call.called_country,
               call.caller_number,
               call.caller_country,
-              call.created_at,
+              call.opened_at.strftime("%H:%m:%S %D"),
+              call.closed_at.strftime("%H:%m:%S %D"),
               "#{call.duration}s"
             ].each do |cell_field| %>
               <div class='call-log-data-cell'>

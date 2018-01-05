@@ -26,8 +26,6 @@ class Webhooks::TwilioController < ApplicationController
   end
 
   def handle_call_status
-    @call.assign_attributes(call_params)
-
     # This is slightly inefficient! We get most, but not all, of the necessary
     # data fields from the status callback API. Twilio's giving us some data here,
     # so we wind up overwriting status and duration.

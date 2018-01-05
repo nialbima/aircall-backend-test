@@ -14,9 +14,5 @@ module BackendTest4
     # framework. Sometimes you need to do the weird stuff, and this keeps it
     # clean.
     config.autoload_paths << "#{Rails.root}/classes"
-
-    # # This line lets us disable protection for Twilio's requests without exposing
-    # # the app to CSRF attacks.
-    # config.middleware.use Rack::TwilioWebhookAuthentication, Credentials.twilio_auth_token, '/webhooks/twilio'
   end
 end
