@@ -6,13 +6,11 @@ class Credentials
   # It's also self-documenting. If something's missing from ENV, we can see exactly
   # where/how that's snuck in and add it with heroku config or in /etc/environment.
   def self.twilio_auth_token
-    '8dfeba3af6bb5adabbc002479286bd30'
-    # Rails.application.secrets.twilio_auth_token
+    Rails.application.secrets.twilio_auth_token
   end
 
   def self.twilio_account_sid
-    'AC523cb3b3f3a43dcfbd9768305d7e77a0'
-    # Rails.application.secrets.twilio_account_sid
+    Rails.application.secrets.twilio_account_sid
   end
 
   def self.phone_number
