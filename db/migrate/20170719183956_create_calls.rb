@@ -3,7 +3,7 @@ class CreateCalls < ActiveRecord::Migration[5.1]
     create_table :calls do |t|
       t.string    :twilio_sid
       t.string    :status
-      t.text    :audio_url
+      t.text      :audio_url
 
       t.string    :called_number
       t.string    :called_country, default: nil

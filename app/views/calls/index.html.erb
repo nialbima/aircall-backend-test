@@ -24,10 +24,9 @@
               call.called_country,
               call.caller_number,
               call.caller_country,
-              # This is really ugly, but I can't use a test API key
-              call.try(:opened_at).try(:strftime, "%H:%M:%S %D") || 'N/A',
-              call.try(:closed_at).try(:strftime, "%H:%M:%S %D") || 'N/A',
-              "#{call.duration || 0}s"
+              call.opened,
+              call.closed,
+              call.duration
             ].each do |cell_field| %>
               <div class='call-log-data-cell'>
                 <%= cell_field %>
